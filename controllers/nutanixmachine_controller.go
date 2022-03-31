@@ -402,12 +402,7 @@ func (r *NutanixMachineReconciler) createVM(rctx *nctx.MachineContext) error {
 				Kind: utils.StringPtr("subnet"),
 			}}
 		nicList := []*nutanixClientV3.VMNic{vmNic}
-		// If this is controlplane node Machine, use the cluster's spec.controlPlaneEndpoint host IP to create VM
-		if nctx.IsControlPlaneMachine(rctx.NutanixMachine) {
-			vmNic.IPEndpointList = []*nutanixClientV3.IPAddress{&nutanixClientV3.IPAddress{
-				//Type: utils.StringPtr("ASSIGNED"),
-				IP: utils.StringPtr(rctx.NutanixCluster.Spec.ControlPlaneEndpoint.Host)}}
-		}
+
 		diskSize := rctx.NutanixMachine.Spec.SystemDiskSize
 		diskSizeMib := GetMibValueOfQuantity(diskSize)
 		systemDisk, err := createSystemDiskSpec(imageUUID, diskSizeMib)
