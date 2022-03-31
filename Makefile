@@ -157,7 +157,7 @@ prepare-local-clusterctl:
 	$(KUSTOMIZE) build config/default > ~/.cluster-api/overrides/infrastructure-nutanix/v0.2.0/infrastructure-components.yaml
 	cp ./metadata.yaml ~/.cluster-api/overrides/infrastructure-nutanix/v0.2.0
 	cp ./cluster-template.yaml ~/.cluster-api/overrides/infrastructure-nutanix/v0.2.0
-	cp ./clusterctl.yaml ~/.cluster-api/
+	cp ./clusterctl.yaml ~/.cluster-api/clusterctl.yaml.template
 
 CONTROLLER_GEN = $(shell pwd)/bin/controller-gen
 controller-gen: ## Download controller-gen locally if necessary.

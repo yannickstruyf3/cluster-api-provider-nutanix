@@ -98,9 +98,9 @@ spec:
             - name: vip_interface
               value: ""
             - name: address
-              value: "10.83.23.49"
+              value:  "${CONTROL_PLANE_ENDPOINT_IP}"
             - name: port
-              value: "6443"
+              value: "${CONTROLPLANE_ENDPOINT_PORT=6443}"
             - name: vip_arp
               value: "true"
             - name: vip_leaderelection
