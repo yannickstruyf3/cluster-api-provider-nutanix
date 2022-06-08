@@ -39,9 +39,20 @@ const (
 func CreateNutanixClient(ctx context.Context, client client.Client, nutanixCluster *infrav1.NutanixCluster) (*nutanixClientV3.Client, error) {
 	creds, err := nutanixClientHelper.GetConnectionInfo(client, ctx, nutanixCluster)
 	if err != nil {
+		klog.Errorf("Error getting connection info for creating Nutanix client: %v", err)
 		return nil, err
 	}
-	return nutanixClientHelper.Client(*creds, nutanixClientHelper.ClientOptions{})
+	c, err := nutanixClient.Client(*creds, nutanixClientHelper.ClientOptions{})
+	if err != nil {
+		klog.Errorf("Error creating Nutanix client: %v", err)
+		return nil, err
+	}
+	_, err = c.V3.GetCurrentLoggedInUser(ctx)
+	if err != nil {
+		klog.Errorf("Error validating Nutanix client connection: %v", err)
+		return nil, err
+	}
+	return c, nil
 }
 
 // deleteVM deletes a VM and is invoked by the NutanixMachineReconciler
